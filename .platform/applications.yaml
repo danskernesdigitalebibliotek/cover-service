@@ -283,12 +283,13 @@ upload-api:
 
   # Scheduled tasks for the app.
   # More information: https://docs.platform.sh/create-apps/app-reference.html#crons
-  crons:
-    # Cover service upload clean up cron job.
-    image-cleanup:
-      spec: '*/15 * * * *'
-      # TODO: Reenable me
-      # cmd: './bin/console app:image:cleanup --no-debug'
+  # TODO: Reenable me
+  #
+  #crons:
+  #  # Cover service upload clean up cron job.
+  #  image-cleanup:
+  #    spec: '*/15 * * * *'
+  #    cmd: './bin/console app:image:cleanup --no-debug'
 
   # The configuration of app when it is exposed to the web.
   web:
