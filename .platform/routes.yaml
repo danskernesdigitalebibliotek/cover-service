@@ -4,16 +4,22 @@ https://{default}/:
   type: upstream
   upstream: "cover-api:http"
   id: cover-api
+  cache:
+    enabled: false
 
 https://importers.{default}/:
   type: upstream
   upstream: "importers:http"
   id: importers
+  cache:
+    enabled: false
 
 https://upload.{default}/:
   type: upstream
   upstream: "upload-api:http"
   id: upload-api
+  cache:
+    enabled: false
 
 "http://{default}/":
   type: redirect
