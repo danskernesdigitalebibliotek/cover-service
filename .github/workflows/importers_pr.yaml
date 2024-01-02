@@ -1,5 +1,5 @@
 on: pull_request
-name: Review
+name: Importers review
 jobs:
   test-composer-install:
     runs-on: ubuntu-latest

@@ -1,5 +1,5 @@
 on: pull_request
-name: Upgrade
+name: Importers PHP upgrade
 jobs:
   test-composer-install:
     runs-on: ubuntu-latest
