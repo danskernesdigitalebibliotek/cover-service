@@ -26,7 +26,9 @@ class IndexingElasticServiceTest extends KernelTestCase
         $container = static::getContainer();
 
         $this->indexingElasticService = $container->get(IndexingElasticService::class);
-        $this->client = $container->get(Client::class);
+        /** @var Client $client */
+        $client = $container->get(Client::class);
+        $this->client = $client;
         $this->indexAliasName = $_ENV['INDEXING_ALIAS'];
         $this->indexName = $this->indexAliasName.'_'.date('Y-m-d-His');
 
@@ -121,10 +123,6 @@ class IndexingElasticServiceTest extends KernelTestCase
                 'index' => $this->indexAliasName,
                 'id' => $item->getId(),
             ]);
-
-            if (Response::HTTP_OK !== $response->getStatusCode()) {
-                $this->fail('ElasticSearch http call status code was: '.$response->getStatusCode());
-            }
 
             $object = $response->asObject();
             $source = $object->_source;
