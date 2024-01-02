@@ -70,6 +70,8 @@ cover-api:
       "/":
         # The public directory of the app, relative to its root.
         root: "public"
+        index:
+          - 'index.html'
         # The front-controller script to send non-static requests to.
         passthru: "/index.php"
 
