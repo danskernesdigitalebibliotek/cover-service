@@ -109,7 +109,7 @@ class IndexingElasticService implements IndexingServiceInterface
                 ],
             ]);
         } catch (\Throwable $e) {
-            throw new SearchIndexException($e->getMessage(), $e->getCode(), $e);
+            throw new SearchIndexException($e->getMessage(), intval($e->getCode()), $e);
         }
     }
 
