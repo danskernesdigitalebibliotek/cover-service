@@ -124,50 +124,49 @@ class IndexingElasticServiceTest extends KernelTestCase
                 'id' => $item->getId(),
             ]);
 
-            $object = $response->asObject();
-            $source = $object->_source;
+            $source = $response['_source'];
 
             $this->assertEquals(
                 $item->getHeight(),
-                $source->height,
-                sprintf('IndexItem:height %d does not match ES data:height %d', $item->getHeight(), $source->height)
+                $source['height'],
+                sprintf('IndexItem:height %d does not match OS data:height %d', $item->getHeight(), $source['height'])
             );
             $this->assertEquals(
                 $item->getWidth(),
-                $source->width,
-                sprintf('IndexItem:width %d does not match ES data:width %d', $item->getWidth(), $source->width)
+                $source['width'],
+                sprintf('IndexItem:width %d does not match OS data:width %d', $item->getWidth(), $source['width'])
             );
             $this->assertEquals(
                 $item->getImageFormat(),
-                $source->imageFormat,
+                $source['imageFormat'],
                 sprintf(
-                    'IndexItem:imageFormat %s does not match ES data:imageFormat %s',
+                    'IndexItem:imageFormat %s does not match OS data:imageFormat %s',
                     $item->getImageFormat(),
-                    $source->imageFormat
+                    $source['imageFormat']
                 )
             );
             $this->assertEquals(
                 $item->getImageUrl(),
-                $source->imageUrl,
+                $source['imageUrl'],
                 sprintf(
-                    'IndexItem:imageUrl %s does not match ES data:imageUrl %s',
+                    'IndexItem:imageUrl %s does not match OS data:imageUrl %s',
                     $item->getImageUrl(),
-                    $source->imageUrl
+                    $source['imageUrl']
                 )
             );
             $this->assertEquals(
                 $item->getIsIdentifier(),
-                $source->isIdentifier,
+                $source['isIdentifier'],
                 sprintf(
-                    'IndexItem:isIdentifier %s does not match ES data:isIdentifier %s',
+                    'IndexItem:isIdentifier %s does not match OS data:isIdentifier %s',
                     $item->getIsIdentifier(),
-                    $source->isIdentifier
+                    $source['isIdentifier']
                 )
             );
             $this->assertEquals(
                 $item->getIsType(),
-                $source->isType,
-                sprintf('IndexItem:isType %s does not match ES data:isType %s', $item->getIsType(), $source->isType)
+                $source['isType'],
+                sprintf('IndexItem:isType %s does not match OS data:isType %s', $item->getIsType(), $source['isType'])
             );
         } catch (ClientErrorResponseException|ServerErrorResponseException $e) {
             $this->fail('Unexpected exception: '.\get_class($e).', '.$e->getMessage());
