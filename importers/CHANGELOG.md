@@ -13,9 +13,9 @@ See [keep a changelog](https://keepachangelog.com/en/1.0.0/) for information abo
 
 ## [3.6.1] - 2023-06-27
 
-### Fixed 
+### Fixed
 - Minor null reference error in CoverStoreMessageHandler
- 
+
 # Added
 - Support recursive search in cover store
 - New command to search bulk uploaded cover for missing source entities.
