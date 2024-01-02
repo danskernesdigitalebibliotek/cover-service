@@ -5,10 +5,9 @@ namespace App\Tests\Service\Indexing;
 use App\Exception\SearchIndexException;
 use App\Service\Indexing\IndexingElasticService;
 use App\Service\Indexing\IndexItem;
-use Elastic\Elasticsearch\Client;
-use Elastic\Elasticsearch\Exception\ClientResponseException;
-use Elastic\Elasticsearch\Exception\MissingParameterException;
-use Elastic\Elasticsearch\Exception\ServerResponseException;
+use OpenSearch\Client;
+use OpenSearch\Common\Exceptions\ClientErrorResponseException;
+use OpenSearch\Common\Exceptions\ServerErrorResponseException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,7 +26,6 @@ class IndexingElasticServiceTest extends KernelTestCase
         $container = static::getContainer();
 
         $this->indexingElasticService = $container->get(IndexingElasticService::class);
-        /* @var Client $client */
         $this->client = $container->get(Client::class);
         $this->indexAliasName = $_ENV['INDEXING_ALIAS'];
         $this->indexName = $this->indexAliasName.'_'.date('Y-m-d-His');
@@ -59,7 +57,7 @@ class IndexingElasticServiceTest extends KernelTestCase
             if ($this->client->indices()->exists(['index' => $this->indexName])) {
                 $this->client->indices()->delete(['index' => $this->indexName]);
             }
-        } catch (ClientResponseException|MissingParameterException|ServerResponseException $e) {
+        } catch (ClientErrorResponseException|ServerErrorResponseException $e) {
             $this->fail('Unexpected exception: '.\get_class($e).', '.$e->getMessage());
         }
     }
@@ -173,7 +171,7 @@ class IndexingElasticServiceTest extends KernelTestCase
                 $source->isType,
                 sprintf('IndexItem:isType %s does not match ES data:isType %s', $item->getIsType(), $source->isType)
             );
-        } catch (ClientResponseException|MissingParameterException|ServerResponseException $e) {
+        } catch (ClientErrorResponseException|ServerErrorResponseException $e) {
             $this->fail('Unexpected exception: '.\get_class($e).', '.$e->getMessage());
         }
     }
