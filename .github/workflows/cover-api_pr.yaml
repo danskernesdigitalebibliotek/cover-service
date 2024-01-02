@@ -197,6 +197,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'yarn'
+          cache-dependency-path: 'cover-api'
       - run: yarn install
 
       - name: markdownlint
