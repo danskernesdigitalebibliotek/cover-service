@@ -10,7 +10,6 @@ use OpenSearch\Common\Exceptions\ClientErrorResponseException;
 use OpenSearch\Common\Exceptions\Missing404Exception;
 use OpenSearch\Common\Exceptions\ServerErrorResponseException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\HttpFoundation\Response;
 
 class IndexingElasticServiceTest extends KernelTestCase
 {

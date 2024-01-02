@@ -6,8 +6,6 @@
 
 namespace App\Service\VendorService\Chandos;
 
-use App\Service\VendorService\AbstractTsvVendorService;
-
 /**
  * Class ChandosVendorService.
  *
