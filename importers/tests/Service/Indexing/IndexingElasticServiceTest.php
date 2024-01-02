@@ -7,6 +7,7 @@ use App\Service\Indexing\IndexingElasticService;
 use App\Service\Indexing\IndexItem;
 use OpenSearch\Client;
 use OpenSearch\Common\Exceptions\ClientErrorResponseException;
+use OpenSearch\Common\Exceptions\Missing404Exception;
 use OpenSearch\Common\Exceptions\ServerErrorResponseException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -95,8 +96,8 @@ class IndexingElasticServiceTest extends KernelTestCase
             $this->indexingElasticService->delete($item->getId());
 
             // Verify delete
-            $this->expectException(ClientResponseException::class);
-            $this->expectExceptionMessage('404 Not Found: {"_index":"'.$this->indexName.'","_id":"1","found":false}');
+            $this->expectException(Missing404Exception::class);
+            $this->expectExceptionMessage('{"_index":"'.$this->indexName.'","_id":"1","found":false}');
 
             $response = $this->client->get([
                 'index' => $this->indexAliasName,
