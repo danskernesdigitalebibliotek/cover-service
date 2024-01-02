@@ -8,6 +8,9 @@ jobs:
       matrix:
         php: [ '8.2' ]
     name: Validate composer (${{ matrix.php}})
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - uses: actions/checkout@v3
 
@@ -43,6 +46,9 @@ jobs:
       fail-fast: false
       matrix:
         php: [ '8.2' ]
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - uses: actions/checkout@v3
 
@@ -106,6 +112,9 @@ jobs:
       matrix:
         php: [ '8.2' ]
     name: Coding style (${{ matrix.php }})
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - uses: actions/checkout@v3
 
@@ -143,6 +152,9 @@ jobs:
       matrix:
         php: [ '8.2' ]
     name: Psalm static analysis (${{ matrix.php}})
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - uses: actions/checkout@v3
 
@@ -177,6 +189,9 @@ jobs:
       fail-fast: false
       matrix:
         php: [ '8.2' ]
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - name: Checkout
         uses: actions/checkout@v3

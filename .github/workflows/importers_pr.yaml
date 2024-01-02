@@ -8,6 +8,9 @@ jobs:
       matrix:
         php: [ '8.1' ]
     name: Validate composer (${{ matrix.php}})
+    defaults:
+      run:
+        working-directory: importers
     steps:
       - uses: actions/checkout@v3
 
@@ -56,6 +59,9 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    defaults:
+      run:
+        working-directory: importers
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -94,6 +100,9 @@ jobs:
       fail-fast: false
       matrix:
         php: ['8.1' ]
+    defaults:
+      run:
+        working-directory: importers
     steps:
       - uses: actions/checkout@v3
 
@@ -158,6 +167,9 @@ jobs:
       matrix:
         php: [ '8.1' ]
     name: PHP Coding Standards Fixer (${{ matrix.php}})
+    defaults:
+      run:
+        working-directory: importers
     steps:
       - uses: actions/checkout@v3
 
@@ -192,6 +204,9 @@ jobs:
       matrix:
         php: [ '8.1' ]
     name: Psalm static analysis (${{ matrix.php}})
+    defaults:
+      run:
+        working-directory: importers
     steps:
       - uses: actions/checkout@v3
 
@@ -224,6 +239,9 @@ jobs:
   markdown-lint:
     name: Markdown Lint
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: importers
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -241,6 +259,9 @@ jobs:
   helm:
     name: Helm
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: importers
     steps:
       - uses: actions/checkout@v3
 
