@@ -1,3 +1,9 @@
 liip_monitor:
     # enabling the controller requires that `assets` are enabled in the framework bundle
-    enable_controller: false
+    enable_controller: true
+    checks:
+        groups:
+            default:
+                redis:
+                    cache:
+                        dsn: "%env(REDIS_CACHE_DSN)%"
