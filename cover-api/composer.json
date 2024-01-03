@@ -16,6 +16,7 @@
         "api-platform/core": "^2.6",
         "danskernesdigitalebibliotek/agency-auth-bundle": "^3.0",
         "itk-dev/metrics-bundle": "^1.0",
+        "liip/monitor-bundle": "^2.22",
         "nelmio/cors-bundle": "^2.1",
         "predis/predis": "^1.1",
         "ruflin/elastica": "^7.1",
