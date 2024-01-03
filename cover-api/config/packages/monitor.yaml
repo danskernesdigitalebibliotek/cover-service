@@ -7,3 +7,12 @@ liip_monitor:
                 redis:
                     cache:
                         dsn: "%env(REDIS_CACHE_DSN)%"
+                guzzle_http_service:
+                    opensearch:
+                        url:                  "%env(INDEXING_URL)%/_cluster/health/%env(INDEXING_INDEX)%?wait_for_status=yellow&timeout=5s"
+                        headers:              []
+                        options:              []
+                        status_code:          200
+                        content:              null
+                        method:               GET
+                        body:                 null
