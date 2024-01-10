@@ -5,8 +5,6 @@ namespace App\Service\Indexing;
 use App\Exception\SearchIndexException;
 use OpenSearch\Client;
 use OpenSearch\Common\Exceptions\Missing404Exception;
-use Symfony\Component\HttpFoundation\Response;
-use Throwable;
 
 class IndexingElasticService implements IndexingServiceInterface
 {
@@ -32,8 +30,7 @@ class IndexingElasticService implements IndexingServiceInterface
 
         try {
             $this->client->index($params);
-
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             throw new SearchIndexException($e->getMessage(), (int) $e->getCode(), $e);
         }
     }
@@ -50,8 +47,7 @@ class IndexingElasticService implements IndexingServiceInterface
 
         try {
             $this->client->delete($params);
-
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             throw new SearchIndexException($e->getMessage(), (int) $e->getCode(), $e);
         }
     }
@@ -81,7 +77,7 @@ class IndexingElasticService implements IndexingServiceInterface
             }
 
             $this->client->bulk($params);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             throw new SearchIndexException($e->getMessage(), (int) $e->getCode(), $e);
         }
     }
@@ -112,8 +108,8 @@ class IndexingElasticService implements IndexingServiceInterface
                     ],
                 ],
             ]);
-        } catch (Throwable $e) {
-            throw new SearchIndexException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Throwable $e) {
+            throw new SearchIndexException($e->getMessage(), intval($e->getCode()), $e);
         }
     }
 
@@ -159,7 +155,7 @@ class IndexingElasticService implements IndexingServiceInterface
                 ],
             ]);
             $this->client->indices()->delete(['index' => $existingIndexName]);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             throw new SearchIndexException($e->getMessage(), (int) $e->getCode(), $e);
         }
     }
@@ -176,7 +172,7 @@ class IndexingElasticService implements IndexingServiceInterface
     {
         try {
             $this->client->indices()->refresh(['index' => $indexName]);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             throw new SearchIndexException('Unable to refresh index', (int) $e->getCode(), $e);
         }
     }
@@ -194,8 +190,9 @@ class IndexingElasticService implements IndexingServiceInterface
         try {
             $response = $this->client->indices()->getAlias(['name' => $this->indexAliasName]);
             $aliases = array_keys($response);
+
             return array_pop($aliases);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             throw new SearchIndexException($e->getMessage(), (int) $e->getCode(), $e);
         }
     }
@@ -299,8 +296,7 @@ class IndexingElasticService implements IndexingServiceInterface
             if (empty($response['acknowledged'])) {
                 throw new SearchIndexException('Unable to create new index');
             }
-
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             throw new SearchIndexException($e->getMessage(), (int) $e->getCode(), $e);
         }
     }

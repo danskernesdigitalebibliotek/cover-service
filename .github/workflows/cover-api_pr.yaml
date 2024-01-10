@@ -1,13 +1,19 @@
-on: pull_request
-name: Review
+on:
+  pull_request:
+    paths:
+      - "cover-api/**"
+name: Cover API review
 jobs:
   test-composer-install:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php: [ '8.1' ]
+        php: [ '8.1', '8.2' ]
     name: Validate composer (${{ matrix.php}})
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - uses: actions/checkout@v3
 
@@ -42,7 +48,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '8.1' ]
+        php: [ '8.1', '8.2' ]
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - uses: actions/checkout@v3
 
@@ -66,25 +75,20 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
 
-      # Setup ElasticSearch
-      # @see https://github.com/elastic/elastic-github-actions/tree/master/elasticsearch
-      - name: Configure sysctl limits
-        run: |
-          sudo swapoff -a
-          sudo sysctl -w vm.swappiness=1
-          sudo sysctl -w fs.file-max=262144
-          sudo sysctl -w vm.max_map_count=262144
-      - name: Runs Elasticsearch
-        uses: elastic/elastic-github-actions/elasticsearch@master
+      - name: Setup OpenSearch
+        uses: ankane/setup-opensearch@v1
         with:
-          stack-version: 8.5.2
-          security-enabled: false
+          # This is the same version definition as is used on Platform.sh
+          # .platform/services.yaml#L44-L44
+          opensearch-version: 2
+          config: |
+            http.port: 9200
 
-      - name: Wait for ES to be ready
+      - name: Wait for OpenSearch to be ready
         run: |
           while ! curl -s -X GET http://127.0.0.1:9200/_cluster/health\?wait_for_status\=green\&timeout\=60s | grep -q '"status":"green"'
           do
-            echo "==> Waiting for ElasticSearch cluster green status" && sleep 1
+            echo "==> Waiting for OpenSearch cluster green status" && sleep 1
           done
 
       - name: Test suite
@@ -104,8 +108,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '8.1' ]
+        php: [ '8.1', '8.2' ]
     name: Coding style (${{ matrix.php }})
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - uses: actions/checkout@v3
 
@@ -131,7 +138,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
 
       - name: PHP CS Fixer
-        run: composer check-coding-standards/php-cs-fixer
+        run: PHP_CS_FIXER_IGNORE_ENV=1 composer check-coding-standards/php-cs-fixer
 
       - name: Twig CS
         run: composer check-coding-standards/twigcs
@@ -141,8 +148,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '8.1' ]
+        php: [ '8.1', '8.2' ]
     name: Psalm static analysis (${{ matrix.php}})
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - uses: actions/checkout@v3
 
@@ -173,6 +183,9 @@ jobs:
   markdownlint:
     name: Markdown Lint
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -182,6 +195,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'yarn'
+          cache-dependency-path: 'cover-api'
       - run: yarn install
 
       - name: markdownlint
@@ -190,6 +204,9 @@ jobs:
   helm:
     name: Helm
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - uses: actions/checkout@v3
 
@@ -210,7 +227,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '8.1' ]
+        php: [ '8.1', '8.2' ]
+    defaults:
+      run:
+        working-directory: cover-api
     steps:
       - name: Checkout
         uses: actions/checkout@v3

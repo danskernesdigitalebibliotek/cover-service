@@ -6,8 +6,6 @@
 
 namespace App\Service\VendorService\MusicBrainz;
 
-use App\Service\VendorService\AbstractTsvVendorService;
-
 /**
  * Class MusicBrainzVendorService.
  *

@@ -6,8 +6,6 @@
 
 namespace App\Service\VendorService\Boardgamegeek;
 
-use App\Service\VendorService\AbstractTsvVendorService;
-
 /**
  * Class BoardgamegeekVendorService.
  *

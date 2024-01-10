@@ -6,8 +6,6 @@
 
 namespace App\Service\VendorService\EBP;
 
-use App\Service\VendorService\AbstractTsvVendorService;
-
 /**
  * Class EBPVendorService.
  *

@@ -68,29 +68,17 @@ services:
       - '6379'
 
   elasticsearch:
-    image: elasticsearch:8.5.2
+    image: 'opensearchproject/opensearch:2'
     networks:
       - app
-      - web
     environment:
-      - node.name=es02
+      - name=opensearch-node2
       - discovery.type=single-node
-      - action.auto_create_index=false
-      - ELASTIC_PASSWORD="password"
-      - xpack.license.self_generated.type=trial
-      - xpack.security.enabled=false
-      - xpack.security.transport.ssl.enabled=false
-    deploy:
-      resources:
-        limits:
-          memory: 4096M
-        reservations:
-          memory: 4096M
+      - plugins.security.disabled=true
     volumes:
-      - esdata2:/usr/share/elasticsearch/data
+      - opensearch-data2:/usr/share/opensearch/data
     ports:
       - '9200'
-      - '9300'
 
   rabbit:
     image: rabbitmq:3.9-management
@@ -105,5 +93,5 @@ services:
       - RABBITMQ_ERLANG_COOKIE='d53f319cd7376f8f840aaf9889f315ab'
 
 volumes:
-  esdata2:
+  opensearch-data2:
     driver: local

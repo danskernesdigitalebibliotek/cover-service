@@ -1,5 +1,8 @@
-on: pull_request
-name: Review
+on:
+  pull_request:
+    paths:
+      - "upload-api/**"
+name: Upload API review
 jobs:
   test-composer-install:
     runs-on: ubuntu-latest
@@ -8,6 +11,9 @@ jobs:
       matrix:
         php: [ '8.1' ]
     name: Validate composer (${{ matrix.php}})
+    defaults:
+      run:
+        working-directory: upload-api
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -48,6 +54,9 @@ jobs:
       matrix:
         php: ['8.1' ]
     name: Validate Doctrine Schema (PHP ${{ matrix.php}})
+    defaults:
+      run:
+        working-directory: upload-api
     services:
       mariadb:
         image: mariadb:10.6
@@ -109,6 +118,9 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    defaults:
+      run:
+        working-directory: upload-api
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -138,7 +150,7 @@ jobs:
       - name: PhpUnit tests
         run: |
           DATABASE_URL="mysql://db:db@127.0.0.1:$PORT/db_test" bin/console --env=test doctrine:migrations:migrate --no-interaction --quiet
-          SYMFONY_DEPRECATIONS_HELPER=disabled DATABASE_URL="mysql://db:db@127.0.0.1:$PORT/db_test" ./vendor/bin/simple-phpunit --coverage-clover=coverage/unit.xml
+          SYMFONY_DEPRECATIONS_HELPER=disabled DATABASE_URL="mysql://db:db@127.0.0.1:$PORT/db_test" ./vendor/bin/phpunit --coverage-clover=coverage/unit.xml
 
       - name: Upload coverage to Codecov test
         uses: codecov/codecov-action@v1
@@ -156,6 +168,9 @@ jobs:
       matrix:
         php: [ '8.1' ]
     name: PHP Coding Standards Fixer (${{ matrix.php}})
+    defaults:
+      run:
+        working-directory: upload-api
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -193,6 +208,9 @@ jobs:
       matrix:
         php: [ '8.1' ]
     name: Psalm static analysis (${{ matrix.php}})
+    defaults:
+      run:
+        working-directory: upload-api
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -226,6 +244,9 @@ jobs:
   markdownlint:
     name: Markdown Lint
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: upload-api
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -261,6 +282,9 @@ jobs:
       matrix:
         php: ['8.1']
     name: API Specification validation
+    defaults:
+      run:
+        working-directory: upload-api
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -297,6 +321,9 @@ jobs:
   helm:
     name: Helm
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: upload-api
     steps:
       - uses: actions/checkout@v1
 
