@@ -188,14 +188,30 @@ importers:
         passthru: "/index.php"
 
   workers:
-    messenger:
+    messenger: &messenger
       # Importers are a single worker so set a size appropriate for this.
-      size: L
+      size: S
 
       commands:
         # Consume "async_priority_high", "async_priority_low", "async_has_cover" & "async_no_hit"
         # messages (as configured in the routing section of config/packages/messenger.yaml)
         start: symfony console --time-limit=3600 --memory-limit=64M messenger:consume --env=prod --no-debug --no-interaction --quiet --failure-limit=1 async_priority_high async_priority_low async_has_cover async_no_hit
+
+    # These are just duplicates of the initial worker
+    messenger-2:
+      <<: *messenger
+    messenger-3:
+      <<: *messenger
+    messenger-4:
+      <<: *messenger
+    messenger-5:
+      <<: *messenger
+    messenger-6:
+      <<: *messenger
+    messenger-7:
+      <<: *messenger
+    messenger-8:
+      <<: *messenger
 
   # Customizations to your PHP or Lisp runtime. More information: https://docs.platform.sh/create-apps/app-reference.html#runtime
   runtime:
