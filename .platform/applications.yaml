@@ -197,6 +197,13 @@ importers:
         # messages (as configured in the routing section of config/packages/messenger.yaml)
         start: symfony console --time-limit=3600 --memory-limit=64M messenger:consume --env=prod --no-debug --no-interaction --quiet --failure-limit=1 async_priority_high async_priority_low async_has_cover async_no_hit
 
+    env-test:
+      # Importers are a single worker so set a size appropriate for this.
+      size: XS
+
+      commands:
+        start: "env && sleep 1000000"
+
   # Customizations to your PHP or Lisp runtime. More information: https://docs.platform.sh/create-apps/app-reference.html#runtime
   runtime:
     extensions:
