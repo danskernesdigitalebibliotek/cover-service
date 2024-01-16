@@ -202,6 +202,8 @@ importers:
       <<: *messenger
     messenger-3:
       <<: *messenger
+    messenger-4:
+      <<: *messenger
 
   # Customizations to your PHP or Lisp runtime. More information: https://docs.platform.sh/create-apps/app-reference.html#runtime
   runtime:
