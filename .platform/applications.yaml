@@ -191,6 +191,7 @@ importers:
     messenger: &messenger
       # Importers are a single worker so set a size appropriate for this.
       size: S
+      disk: 256
 
       commands:
         # Consume "async_priority_high", "async_priority_low", "async_has_cover" & "async_no_hit"
@@ -201,6 +202,8 @@ importers:
     messenger-2:
       <<: *messenger
     messenger-3:
+      <<: *messenger
+    messenger-4:
       <<: *messenger
 
   # Customizations to your PHP or Lisp runtime. More information: https://docs.platform.sh/create-apps/app-reference.html#runtime
