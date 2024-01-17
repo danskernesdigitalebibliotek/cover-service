@@ -172,11 +172,104 @@ importers:
   # Scheduled tasks for the app.
   # More information: https://docs.platform.sh/create-apps/app-reference.html#crons
   crons:
-    # Run nightly imports of vendors.
-    import-vendors:
-      spec: '0 1 * * 1-6'
-      # TODO: Load all vendors - '--vendor=all'
-      cmd: './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=none'
+    # Queue nightly imports of vendors.
+    # Each vendor is defined as an individual cron job for improved visibility.
+    # The order corresponds to the order in the vendor table in the database
+    # which would otherwise be respected when running:
+    # app:vendor:load --vendor=all
+    # All timeouts are set to 4 hours (14400 seconds) by default. Most should
+    # not run for so long but if one or two do then this should ensure that
+    # they are cleared by morning.
+    # Cron jobs are only run in production. They should be run manually in all
+    # other environments.
+    import-upload-service:
+      spec: '1 0 * * *'
+      timeout: 14400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+            './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=UploadService'
+          fi
+    import-aarhus-kommune-mbu:
+      spec: '2 0 * * *'
+      timeout: 14400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+            './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=AarhusKommuneMbu'
+          fi
+    import-herning-bib:
+      spec: '3 0 * * *'
+      timeout: 14400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+            './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=HerningBib'
+          fi
+    import-block-buster:
+      spec: '4 0 * * *'
+      timeout: 14400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+            './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=BlockBuster'
+          fi
+    import-pressreader:
+      spec: '5 0 * * *'
+      timeout: 14400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+            './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=PressReader'
+          fi
+    import-over-drive-magazines:
+      spec: '6 0 * * *'
+      timeout: 14400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+            './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=OverDriveMagazines'
+          fi
+    import-the-movie-database:
+      spec: '7 0 * * *'
+      timeout: 14400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+            './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=TheMovieDatabase'
+          fi
+    import-ebook-central:
+      spec: '8 0 * * *'
+      timeout: 14400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+            './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=eBookCentral'
+          fi
+    import-comics-plus:
+      spec: '8 0 * * *'
+      timeout: 14400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+            './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=ComicsPlus'
+          fi
+    import-publizon:
+      spec: '9 0 * * *'
+      timeout: 14400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+            './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=publizon'
+          fi
+    import-bogportalen-dk:
+      spec: '10 0 * * *'
+      timeout: 14400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+            './bin/console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=bogportalen.dk'
+          fi
 
   # The configuration of app when it is exposed to the web.
   web:
