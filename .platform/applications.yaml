@@ -232,7 +232,7 @@ importers:
           fi
     import-the-movie-database:
       spec: '7 0 * * *'
-      timeout: 14400
+      #timeout: 14400
       commands:
         start: |
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
@@ -240,7 +240,7 @@ importers:
           fi
     import-ebook-central:
       spec: '8 0 * * *'
-      timeout: 14400
+      #timeout: 14400
       commands:
         start: |
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
