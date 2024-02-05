@@ -296,8 +296,12 @@ importers:
       <<: *messenger
     messenger-3:
       <<: *messenger
-    messenger-4:
+    # Final worker which will pick up any easy/final messages if available to avoid them piling up.
+    messenger-low-priority:
       <<: *messenger
+      commands:
+        # Order of queues is reverse from other workers
+        start: symfony console --time-limit=3600 --memory-limit=64M messenger:consume --env=prod --no-debug --no-interaction --quiet --failure-limit=1 async_no_hit async_has_cover async_priority_low async_priority_high
 
   # Customizations to your PHP or Lisp runtime. More information: https://docs.platform.sh/create-apps/app-reference.html#runtime
   runtime:
