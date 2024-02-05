@@ -182,12 +182,14 @@ importers:
     # they are cleared by morning.
     # Cron jobs are only run in production. They should be run manually in all
     # other environments.
+    # Each cron job can be disabled temporarily by setting a corresponding
+    # environment variable.
     import-upload-service:
       spec: '1 0 * * *'
       timeout: 14400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_UPLOAD_SERVICE" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=UploadService
           fi
     import-aarhus-kommune-mbu:
@@ -195,7 +197,7 @@ importers:
       timeout: 14400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_AARHUS_KOMMUNE_MBU" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=AarhusKommuneMbu
           fi
     import-herning-bib:
@@ -203,7 +205,7 @@ importers:
       timeout: 14400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_HERNING_BIB" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=HerningBib
           fi
     import-block-buster:
@@ -211,7 +213,7 @@ importers:
       timeout: 14400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_BLOCK_BUSTER" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=BlockBuster
           fi
     import-pressreader:
@@ -219,7 +221,7 @@ importers:
       timeout: 14400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_PRESS_READER" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=PressReader
           fi
     import-over-drive-magazines:
@@ -227,7 +229,7 @@ importers:
       timeout: 14400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_OVER_DRIVE_MAGAZINES" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=OverDriveMagazines
           fi
     import-the-movie-database:
@@ -235,7 +237,7 @@ importers:
       #timeout: 14400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_THE_MOVIE_DATABASE" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=TheMovieDatabase
           fi
     import-ebook-central:
@@ -243,7 +245,7 @@ importers:
       #timeout: 14400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_EBOOK_CENTRAL" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=eBookCentral
           fi
     import-comics-plus:
@@ -251,7 +253,7 @@ importers:
       timeout: 14400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_COMICS_PLUS" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=ComicsPlus
           fi
     import-publizon:
@@ -259,7 +261,7 @@ importers:
       timeout: 14400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_PUBLIZON" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=publizon
           fi
     import-bogportalen-dk:
@@ -267,7 +269,7 @@ importers:
       timeout: 14400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ]; then
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_BOGPORTALEN_DK" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=bogportalen.dk
           fi
 
