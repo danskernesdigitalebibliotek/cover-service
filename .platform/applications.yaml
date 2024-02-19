@@ -339,7 +339,7 @@ upload-api:
   size: M
 
   # The size of the persistent disk of the application (in MB).
-  disk: 256
+  disk: 384
 
   build:
     flavor: composer
