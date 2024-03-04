@@ -91,18 +91,18 @@ class SearchService
      */
     public function search(string $identifier, string $type, string $agencyId = '', string $profile = '', bool $refresh = false): Material
     {
-        // Check if input parameters are set, if not fallback to default configuration.
-        $agencyId = empty($agencyId) ? $this->agency : $agencyId;
-        if (empty($profile)) {
-            if (empty($agencyId)) {
-                // Both profile and agency is not set explicit. So profile should
-                // be the one configured.
-                $profile = $this->searchProfile;
-            } else {
-                // Agency have been set but no profile to default to "opac" profile, which
-                // all libraries should have.
-                $profile = self::FALLBACK_PROFILE;
-            }
+        if (empty($agencyId) && empty($profile)) {
+            // If no parameter is set then fallback to default configuration.
+            $agencyId = $this->agency;
+            $profile = $this->searchProfile;
+        } elseif (empty($profile)) {
+            // Agency have been set but no profile to default to "opac" profile, which
+            // all libraries should have.
+            $profile = self::FALLBACK_PROFILE;
+        } elseif (empty($agencyId)) {
+            // Profile is set but not agency then assume we can use the default
+            // agency.
+            $agencyId = $this->agency;
         }
 
         try {
