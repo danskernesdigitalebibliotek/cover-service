@@ -174,19 +174,19 @@ importers:
   crons:
     # Queue nightly imports of vendors.
     # Each vendor is defined as an individual cron job for improved visibility.
-    # The order corresponds to the order in the vendor table in the database
-    # which would otherwise be respected when running:
-    # app:vendor:load --vendor=all
-    # All timeouts are set to 4 hours (14400 seconds) by default. Most should
-    # not run for so long but if one or two do then this should ensure that
-    # they are cleared by morning.
+    # The order corresponds to the order they are prioritized in, the time they
+    # take to process and the number of updates they are expected to generate.
+    # Most timeouts are set to 2 hours (7200 seconds) to ensure that they do not
+    # hang for too long.
     # Cron jobs are only run in production. They should be run manually in all
     # other environments.
     # Each cron job can be disabled temporarily by setting a corresponding
     # environment variable.
     import-upload-service:
-      spec: '1 0 * * *'
-      timeout: 14400
+      # Process upload service frequently during work days to respond
+      # quickly to staff contributions.
+      spec: '0/5 9-17 * * 1-5'
+      timeout: 7200
       commands:
         start: |
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_UPLOAD_SERVICE" ]; then
@@ -194,7 +194,7 @@ importers:
           fi
     import-aarhus-kommune-mbu:
       spec: '2 0 * * *'
-      timeout: 14400
+      timeout: 7200
       commands:
         start: |
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_AARHUS_KOMMUNE_MBU" ]; then
@@ -202,7 +202,7 @@ importers:
           fi
     import-herning-bib:
       spec: '3 0 * * *'
-      timeout: 14400
+      timeout: 7200
       commands:
         start: |
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_HERNING_BIB" ]; then
@@ -210,7 +210,7 @@ importers:
           fi
     import-block-buster:
       spec: '4 0 * * *'
-      timeout: 14400
+      timeout: 7200
       commands:
         start: |
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_BLOCK_BUSTER" ]; then
@@ -218,7 +218,7 @@ importers:
           fi
     import-pressreader:
       spec: '5 0 * * *'
-      timeout: 14400
+      timeout: 7200
       commands:
         start: |
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_PRESS_READER" ]; then
@@ -226,51 +226,54 @@ importers:
           fi
     import-over-drive-magazines:
       spec: '6 0 * * *'
-      timeout: 14400
+      timeout: 7200
       commands:
         start: |
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_OVER_DRIVE_MAGAZINES" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=OverDriveMagazines
           fi
-    import-the-movie-database:
-      spec: '7 0 * * *'
-      #timeout: 14400
-      commands:
-        start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_THE_MOVIE_DATABASE" ]; then
-            symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=TheMovieDatabase
-          fi
-    import-ebook-central:
-      spec: '8 0 * * *'
-      #timeout: 14400
-      commands:
-        start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_EBOOK_CENTRAL" ]; then
-            symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=eBookCentral
-          fi
     import-comics-plus:
-      spec: '8 0 * * *'
-      timeout: 14400
+      spec: '7 0 * * *'
+      timeout: 7200
       commands:
         start: |
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_COMICS_PLUS" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=ComicsPlus
           fi
-    import-publizon:
+    import-bogportalen-dk:
+      spec: '8 0 * * *'
+      timeout: 7200
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_BOGPORTALEN_DK" ]; then
+            symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=bogportalen.dk
+          fi
+    import-the-movie-database:
       spec: '9 0 * * *'
-      timeout: 14400
+      # Known to run for a very long time.
+      timeout: 86400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_THE_MOVIE_DATABASE" ]; then
+            symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=TheMovieDatabase
+          fi
+    import-publizon:
+      spec: '10 0 * * *'
+      # Known to run for a very long time.
+      timeout: 86400
       commands:
         start: |
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_PUBLIZON" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=publizon
           fi
-    import-bogportalen-dk:
-      spec: '10 0 * * *'
-      timeout: 14400
+    import-ebook-central:
+      spec: '11 0 * * *'
+      # Known to run for a very long time.
+      timeout: 86400
       commands:
         start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_BOGPORTALEN_DK" ]; then
-            symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=bogportalen.dk
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_EBOOK_CENTRAL" ]; then
+            symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=eBookCentral
           fi
 
   # The configuration of app when it is exposed to the web.
