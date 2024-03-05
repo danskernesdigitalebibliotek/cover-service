@@ -238,14 +238,13 @@ class UploadServiceVendorService implements VendorServiceImporterInterface
             $this->em->persist($image);
 
             // Set source entity information.
-            $timezone = new \DateTimeZone('UTC');
             $source->setMatchType($type)
                 ->setMatchId($identifier)
                 ->setVendor($this->vendorCoreService->getVendor($this->getVendorId()))
-                ->setDate(new \DateTime('now', $timezone))
+                ->setDate(new \DateTime())
                 ->setOriginalFile($item->getUrl())
                 ->setOriginalContentLength($item->getSize())
-                ->setOriginalLastModified(new \DateTime('now', $timezone))
+                ->setOriginalLastModified(new \DateTime())
                 ->setImage($image);
             $this->em->persist($source);
 

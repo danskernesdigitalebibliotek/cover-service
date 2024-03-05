@@ -218,7 +218,6 @@ final class VendorCoreService
         // Load batch from database to enable updates.
         $sources = $sourceRepo->findByMatchIdList($identifierType, $batch, $vendor);
 
-        $timezone = new \DateTimeZone('UTC');
         foreach ($batch as $identifier => $imageUrl) {
             if (array_key_exists($identifier, $sources)) {
                 /* @var Source $source */
@@ -227,7 +226,7 @@ final class VendorCoreService
                     $source->setMatchType($identifierType)
                         ->setMatchId($identifier)
                         ->setVendor($vendor)
-                        ->setDate(new \DateTime('now', $timezone))
+                        ->setDate(new \DateTime())
                         ->setOriginalFile($imageUrl);
                     $updatedIdentifiers[] = $identifier;
                 }
@@ -236,7 +235,7 @@ final class VendorCoreService
                 $source->setMatchType($identifierType)
                     ->setMatchId($identifier)
                     ->setVendor($vendor)
-                    ->setDate(new \DateTime('now', $timezone))
+                    ->setDate(new \DateTime())
                     ->setOriginalFile($imageUrl);
                 $this->em->persist($source);
                 $insertedIdentifiers[] = $identifier;
