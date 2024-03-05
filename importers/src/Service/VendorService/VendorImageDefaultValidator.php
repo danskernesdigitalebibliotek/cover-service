@@ -98,16 +98,14 @@ class VendorImageDefaultValidator
     {
         $headers = $response->getHeaders();
 
-        $timezone = new \DateTimeZone('UTC');
         if (isset($headers['last-modified']) && !empty($headers['last-modified'])) {
             $lastModified = \DateTime::createFromFormat(
                 'D, d M Y H:i:s \G\M\T',
                 array_shift($headers['last-modified']),
-                $timezone
             );
         } else {
             // Not all server send last modified headers so fallback to now.
-            $lastModified = new \DateTime('now', $timezone);
+            $lastModified = new \DateTime();
         }
         $item->setOriginalLastModified($lastModified);
     }
