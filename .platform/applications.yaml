@@ -176,6 +176,7 @@ importers:
     # Each vendor is defined as an individual cron job for improved visibility.
     # The order corresponds to the order they are prioritized in, the time they
     # take to process and the number of updates they are expected to generate.
+    # All specs are set in UTC.
     # Most timeouts are set to 2 hours (7200 seconds) to ensure that they do not
     # hang for too long.
     # Cron jobs are only run in production. They should be run manually in all
@@ -183,9 +184,9 @@ importers:
     # Each cron job can be disabled temporarily by setting a corresponding
     # environment variable.
     import-upload-service:
-      # Process upload service frequently during work days to respond
+      # Process upload service frequently during normal work hours to respond
       # quickly to staff contributions.
-      spec: '0/5 9-17 * * 1-5'
+      spec: '0/5 8-16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -193,7 +194,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=UploadService
           fi
     import-aarhus-kommune-mbu:
-      spec: '2 0 * * *'
+      spec: '1 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -201,7 +202,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=AarhusKommuneMbu
           fi
     import-herning-bib:
-      spec: '3 0 * * *'
+      spec: '2 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -209,7 +210,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=HerningBib
           fi
     import-block-buster:
-      spec: '4 0 * * *'
+      spec: '3 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -217,7 +218,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=BlockBuster
           fi
     import-pressreader:
-      spec: '5 0 * * *'
+      spec: '4 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -225,7 +226,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=PressReader
           fi
     import-over-drive-magazines:
-      spec: '6 0 * * *'
+      spec: '5 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -233,7 +234,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=OverDriveMagazines
           fi
     import-comics-plus:
-      spec: '7 0 * * *'
+      spec: '6 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -241,7 +242,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=ComicsPlus
           fi
     import-bogportalen-dk:
-      spec: '8 0 * * *'
+      spec: '7 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -249,7 +250,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=bogportalen.dk
           fi
     import-the-movie-database:
-      spec: '9 0 * * *'
+      spec: '8 16 * * *'
       # Known to run for a very long time.
       timeout: 86400
       commands:
@@ -258,7 +259,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=TheMovieDatabase
           fi
     import-publizon:
-      spec: '10 0 * * *'
+      spec: '9 16 * * *'
       # Known to run for a very long time.
       timeout: 86400
       commands:
@@ -267,7 +268,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=publizon
           fi
     import-ebook-central:
-      spec: '11 0 * * *'
+      spec: '10 16 * * *'
       # Known to run for a very long time.
       timeout: 86400
       commands:
