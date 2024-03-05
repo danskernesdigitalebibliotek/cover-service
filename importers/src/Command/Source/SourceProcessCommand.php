@@ -80,7 +80,7 @@ class SourceProcessCommand extends Command
             $format = 'd-m-Y';
             $inputDate = \DateTimeImmutable::createFromFormat('!'.$format, $lastIndexedDate);
             if (false === $inputDate || $inputDate->format($format) !== $lastIndexedDate) {
-                $output->writeln('<error>Lasted indexed date should have the format "m-d-Y"</error>');
+                $output->writeln('<error>Last indexed date should have the format "d-m-Y"</error>');
 
                 return Command::FAILURE;
             }
