@@ -184,9 +184,9 @@ importers:
     # Each cron job can be disabled temporarily by setting a corresponding
     # environment variable.
     import-upload-service:
-      # Process upload service frequently during work days to respond
+      # Process upload service frequently during normal work hours to respond
       # quickly to staff contributions.
-      spec: '0/5 8-16 * * 1-5'
+      spec: '0/5 8-16 * * *'
       timeout: 7200
       commands:
         start: |
