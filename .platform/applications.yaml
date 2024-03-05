@@ -194,7 +194,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=UploadService
           fi
     import-aarhus-kommune-mbu:
-      spec: '2 0 * * *'
+      spec: '1 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -202,7 +202,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=AarhusKommuneMbu
           fi
     import-herning-bib:
-      spec: '3 0 * * *'
+      spec: '2 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -210,7 +210,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=HerningBib
           fi
     import-block-buster:
-      spec: '4 0 * * *'
+      spec: '3 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -218,7 +218,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=BlockBuster
           fi
     import-pressreader:
-      spec: '5 0 * * *'
+      spec: '4 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -226,7 +226,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=PressReader
           fi
     import-over-drive-magazines:
-      spec: '6 0 * * *'
+      spec: '5 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -234,7 +234,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=OverDriveMagazines
           fi
     import-comics-plus:
-      spec: '7 0 * * *'
+      spec: '6 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -242,7 +242,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=ComicsPlus
           fi
     import-bogportalen-dk:
-      spec: '8 0 * * *'
+      spec: '7 16 * * *'
       timeout: 7200
       commands:
         start: |
@@ -250,7 +250,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=bogportalen.dk
           fi
     import-the-movie-database:
-      spec: '9 0 * * *'
+      spec: '8 16 * * *'
       # Known to run for a very long time.
       timeout: 86400
       commands:
@@ -259,7 +259,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=TheMovieDatabase
           fi
     import-publizon:
-      spec: '10 0 * * *'
+      spec: '9 16 * * *'
       # Known to run for a very long time.
       timeout: 86400
       commands:
@@ -268,7 +268,7 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=publizon
           fi
     import-ebook-central:
-      spec: '11 0 * * *'
+      spec: '10 16 * * *'
       # Known to run for a very long time.
       timeout: 86400
       commands:
