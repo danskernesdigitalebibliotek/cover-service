@@ -347,7 +347,7 @@ To attempt to automatically fix coding style
 * PHP files (PHP-CS-Fixer)
 
     ```sh
-    docker compose exec phpfpm composer apply-coding-standards
+    docker compose exec phpfpm composer coding-standards-apply
     ```
 
 * Markdown files (markdownlint standard rules)
