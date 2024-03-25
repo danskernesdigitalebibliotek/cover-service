@@ -13,4 +13,5 @@ return [
     DanskernesDigitaleBibliotek\AgencyAuthBundle\DanskernesDigitaleBibliotekAgencyAuthBundle::class => ['all' => true],
     ItkDev\MetricsBundle\ItkDevMetricsBundle::class => ['all' => true],
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
+    Liip\MonitorBundle\LiipMonitorBundle::class => ['all' => true],
 ];
