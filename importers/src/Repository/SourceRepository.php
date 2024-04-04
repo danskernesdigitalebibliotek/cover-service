@@ -108,12 +108,17 @@ class SourceRepository extends ServiceEntityRepository
      *   The vendor to fetch sources for
      * @param string|null $identifier
      *   Limit to single identifier
+     * @param bool $withoutImage
+     *   Include sources that does not have an image
      */
-    public function findReindexabledSources(int $limit = 0, ?\DateTimeImmutable $lastIndexedDate = null, int $vendorId = 0, ?string $identifier = ''): Query
+    public function findReindexabledSources(int $limit = 0, ?\DateTimeImmutable $lastIndexedDate = null, int $vendorId = 0, ?string $identifier = '', ?bool $withoutImage = false): Query
     {
         $queryBuilder = $this->createQueryBuilder('s');
-        $queryBuilder->select('s')
-            ->where('s.image IS NOT NULL');
+
+        if (false === $withoutImage) {
+            $queryBuilder->select('s')
+                ->where('s.image IS NOT NULL');
+        }
 
         if (0 < $limit) {
             $queryBuilder->setMaxResults($limit);
