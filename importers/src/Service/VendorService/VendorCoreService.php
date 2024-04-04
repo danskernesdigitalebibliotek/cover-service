@@ -222,7 +222,7 @@ final class VendorCoreService
             if (array_key_exists($identifier, $sources)) {
                 /* @var Source $source */
                 $source = $sources[$identifier];
-                if ($source->getDate() >= $withUpdatesDate && self::UPDATE_COVER_LIMIT === $source->getSearches()->count()) {
+                if ($source->getDate() >= $withUpdatesDate && self::UPDATE_COVER_LIMIT >= $source->getSearches()->count()) {
                     $source->setMatchType($identifierType)
                         ->setMatchId($identifier)
                         ->setVendor($vendor)

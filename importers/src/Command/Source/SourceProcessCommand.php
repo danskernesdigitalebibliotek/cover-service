@@ -51,6 +51,7 @@ class SourceProcessCommand extends Command
             ->addOption('identifier', null, InputOption::VALUE_OPTIONAL, 'If set only this identifier will be re-index (requires that you set vendor id)')
             ->addOption('clean-up', null, InputOption::VALUE_NONE, 'Remove all rows from the search table related to a given source before insert')
             ->addOption('without-search-cache', null, InputOption::VALUE_NONE, 'If set do not use search cache during re-index')
+            ->addOption('without-image', null, InputOption::VALUE_NONE, 'Include sources which do not have an image attached')
             ->addOption('last-indexed-date', null, InputOption::VALUE_OPTIONAL, 'The date used when re-indexing in batches to have keeps track index by date (24-10-2021)')
             ->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit the number of sources rows to index, requires last-indexed-date is given');
     }
@@ -66,6 +67,7 @@ class SourceProcessCommand extends Command
         $withOutSearchCache = $input->getOption('without-search-cache');
         $lastIndexedDate = $input->getOption('last-indexed-date');
         $limit = (int) $input->getOption('limit');
+        $withoutImage = $input->getOption('without-image');
 
         if (!is_null($identifier)) {
             if (0 > $vendorId) {
@@ -102,7 +104,7 @@ class SourceProcessCommand extends Command
 
         /** @var SourceRepository $sourceRepos */
         $sourceRepos = $this->em->getRepository(Source::class);
-        $query = $sourceRepos->findReindexabledSources($limit, $inputDate, $vendorId, $identifier);
+        $query = $sourceRepos->findReindexabledSources($limit, $inputDate, $vendorId, $identifier, $withoutImage);
         $batchSize = 200;
         $i = 1;
 
