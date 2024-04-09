@@ -24,7 +24,7 @@ final class ImageUrl
      *         "openapi_context"={
      *              "type"="string",
      *              "format"="url",
-     *              "nullable"="true",
+     *              "nullable"=true,
      *              "example"="https://res.cloudinary.com/dandigbib/image/upload/v1543609481/bogportalen.dk/9788702246841.jpg"
      *          }
      *     }
