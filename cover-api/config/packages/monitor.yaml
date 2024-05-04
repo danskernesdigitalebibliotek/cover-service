@@ -1,0 +1,21 @@
+liip_monitor:
+    # enabling the controller requires that `assets` are enabled in the framework bundle
+    enable_controller: true
+    checks:
+        groups:
+            default:
+                redis:
+                    cache:
+                        dsn: "%env(REDIS_CACHE_DSN)%"
+                rabbit_mq:
+                    queue:
+                        dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
+                guzzle_http_service:
+                    opensearch:
+                        url:                  "%env(INDEXING_URL)%/_cluster/health/%env(INDEXING_INDEX)%?wait_for_status=yellow&timeout=5s"
+                        headers:              []
+                        options:              []
+                        status_code:          200
+                        content:              null
+                        method:               GET
+                        body:                 null
