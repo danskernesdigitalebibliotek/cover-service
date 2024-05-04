@@ -250,8 +250,8 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=bogportalen.dk
           fi
     import-the-movie-database:
-      spec: '8 16 * * *'
-      # Known to run for a very long time.
+      spec: '8 16 * * 6'
+      # Known to run for a very long time so only run this on saturdays to avoid blocking other crons during weekdays.
       timeout: 86400
       commands:
         start: |
@@ -268,8 +268,8 @@ importers:
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=publizon
           fi
     import-ebook-central:
-      spec: '10 16 * * *'
-      # Known to run for a very long time.
+      spec: '10 16 * * 6'
+      # Known to run for a very long time so only run this on saturdays to avoid blocking other crons during weekdays.
       timeout: 86400
       commands:
         start: |
