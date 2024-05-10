@@ -249,17 +249,8 @@ importers:
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_BOGPORTALEN_DK" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=bogportalen.dk
           fi
-    import-the-movie-database:
-      spec: '8 16 * * 6'
-      # Known to run for a very long time so only run this on saturdays to avoid blocking other crons during weekdays.
-      timeout: 86400
-      commands:
-        start: |
-          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_THE_MOVIE_DATABASE" ]; then
-            symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=TheMovieDatabase
-          fi
     import-publizon:
-      spec: '9 16 * * *'
+      spec: '8 16 * * *'
       # Known to run for a very long time.
       timeout: 86400
       commands:
@@ -267,9 +258,18 @@ importers:
           if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_PUBLIZON" ]; then
             symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=publizon
           fi
+    import-the-movie-database:
+      spec: '9 16 * * 5'
+      # Known to run for a very long time so only run on friday evenings to avoid blocking other crons during weekdays.
+      timeout: 86400
+      commands:
+        start: |
+          if [ "$PLATFORM_ENVIRONMENT_TYPE" = production ] && [ -z "$DISABLE_VENDOR_LOAD_THE_MOVIE_DATABASE" ]; then
+            symfony console app:vendor:load --env=prod --no-debug --days-ago=180 --vendor=TheMovieDatabase
+          fi
     import-ebook-central:
-      spec: '10 16 * * 6'
-      # Known to run for a very long time so only run this on saturdays to avoid blocking other crons during weekdays.
+      spec: '10 16 * * 5'
+      # Known to run for a very long time so only run on friday evenings to avoid blocking other crons during weekdays.
       timeout: 86400
       commands:
         start: |
