@@ -18,7 +18,7 @@
         "nelmio/cors-bundle": "^2.2",
         "predis/predis": "^2.0",
         "sensio/framework-extra-bundle": "^6.2",
-        "symfony/amqp-messenger": "6.1.*",
+        "symfony/amqp-messenger": "~6.3.12",
         "symfony/asset": "6.1.*",
         "symfony/cache": "6.1.*",
         "symfony/console": "6.1.*",
