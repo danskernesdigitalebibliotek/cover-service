@@ -126,7 +126,7 @@
     },
     "extra": {
         "symfony": {
-            "require": "6.1.*"
+            "require": "6.3.*"
         }
     }
 }
