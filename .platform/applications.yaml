@@ -15,7 +15,7 @@ cover-api:
   size: XL
 
   # The size of the persistent disk of the application (in MB).
-  disk: 1024
+  disk: 512
 
   build:
     flavor: composer
@@ -117,7 +117,7 @@ importers:
   size: S
 
   # The size of the persistent disk of the application (in MB).
-  disk: 1028
+  disk: 512
 
   build:
     flavor: composer
@@ -343,7 +343,7 @@ upload-api:
   size: M
 
   # The size of the persistent disk of the application (in MB).
-  disk: 4096
+  disk: 5120
 
   build:
     flavor: composer
