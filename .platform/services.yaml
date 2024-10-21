@@ -74,6 +74,6 @@ searchopen:
   # the CLI will return an error.
   type: opensearch:2
   # The disk attribute is the size of the persistent disk (in MB) allocated to the service.
-  disk: 2048
+  disk: 1536
   # How many CPU and memory resources to allocate to the service.
   size: 2XL
