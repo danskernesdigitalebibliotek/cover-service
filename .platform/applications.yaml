@@ -117,7 +117,7 @@ importers:
   size: S
 
   # The size of the persistent disk of the application (in MB).
-  disk: 512
+  disk: 1024
 
   build:
     flavor: composer
