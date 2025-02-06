@@ -12,7 +12,7 @@ use App\Exception\MaterialTypeException;
 use App\Exception\OpenPlatformSearchException;
 use App\Message\IndexMessage;
 use App\Message\SearchMessage;
-use App\Service\OpenPlatform\SearchService;
+use App\Utils\OpenPlatform\Material;
 use App\Utils\Types\VendorState;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -31,13 +31,11 @@ class SearchMessageHandler implements MessageHandlerInterface
      * @param EntityManagerInterface $em
      * @param MessageBusInterface $bus
      * @param LoggerInterface $logger
-     * @param SearchService $searchService
      */
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly MessageBusInterface $bus,
         private readonly LoggerInterface $logger,
-        private readonly SearchService $searchService
     ) {
     }
 
@@ -78,16 +76,13 @@ class SearchMessageHandler implements MessageHandlerInterface
         }
 
         try {
-            $material = $this->searchService->search($message->getIdentifier(), $message->getIdentifierType(), $message->getAgency(), $message->getProfile(), !$message->useSearchCache());
-        } catch (OpenPlatformSearchException $e) {
-            $this->logger->error('Search request exception', [
-                'service' => 'SearchProcessor',
-                'identifier' => $message->getIdentifier(),
-                'type' => $message->getIdentifierType(),
-                'message' => $e->getMessage(),
-            ]);
-
-            throw $e;
+            // Do a naive mapping from message to material.
+            // This was previously handled through OpenPlatform but since this
+            // service has been shut down and there is no intention to
+            // reimplement the functionality through other means we do a simple
+            // 1-to-1 mapping
+            // @see \App\Service\OpenPlatform\SearchService
+            $material = (new Material())->addIdentifier($message->getIdentifierType(), $message->getIdentifier());
         } catch (MaterialTypeException $e) {
             $this->logger->error('Unknown material type found', [
                 'service' => 'SearchProcessor',
