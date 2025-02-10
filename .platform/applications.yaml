@@ -186,7 +186,7 @@ importers:
     import-upload-service:
       # Process upload service frequently during normal work hours to respond
       # quickly to staff contributions.
-      spec: '0/5 8-16 * * *'
+      spec: '0/5 7-16 * * *'
       timeout: 7200
       commands:
         start: |
